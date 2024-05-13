@@ -14,9 +14,9 @@ class BM {
         int* update(); // ギブスサンプリングで状態を一回更新する関数
         void sampling(int n); // ギブスサンプリングをn回行い、histgramに結果を代入する
         void p_distr_calc(); // 確率分布の厳密解を計算する関数
-        void dataGen(int num); // 
-        void dataRead(int num); // 
-        void train(); // 
+        void dataGen(int num); // 訓練データを生成する関数
+        void dataRead(int num); // 訓練データを読み込む関数
+        void train(); // 読み込んだ訓練データにBMを学習させる関数
         BM(int n); // コンストラクタ
         ~BM(); // デコンストラクタ
     private:
@@ -27,9 +27,9 @@ class BM {
         int **traindata; // 訓練データを保存する配列
         int traindatanum; // 訓練データの数
         double energy_calc(); // BMの現在の状態でのエネルギーを計算する関数
-        int lambda(int i);
+        double lambda(int i);
         double random_num();
-        double sig(int i); // シグモイド関数
+        double sig(double x); // シグモイド関数
         int x_num(); // 現在の状態を2進数で返す関数
         void setX(int num); // 2進数から状態Xを設定する関数
         double learn_rate;

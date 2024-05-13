@@ -62,10 +62,10 @@ double BM::energy_calc(){
     return energy;
 }
 
-// ボルツマンマシンの1つのノードに対する
-int BM::lambda(int i){
+// ボルツマンマシンの1つのノードに対する周囲のノードからの影響
+double BM::lambda(int i){
     int j;
-    int lambda = b[i];
+    double lambda = b[i];
     for(j=0;j<N;j++){
         lambda += w[i][j]*X[j];
     }
@@ -85,7 +85,7 @@ double BM::random_num(){
 }
 
 // シグモイド関数
-double BM::sig(int x){
+double BM::sig(double x){
     double exp_val;
     if(x>0){
         return 1 / ( 1 + exp(-x) );
@@ -141,16 +141,16 @@ int* BM::update(){
 // 指定した回数サンプリングを行う関数
 void BM::sampling(int n){
     int i,j;
-    for(i=0;i<pow(2,N);i++){
+    for(i=0;i<time;i++){
         histgram[i] = 0;
     }
 
-    for(i=0;i<100;i++){
+    for(i=0;i<1000;i++){
         update();
     }
 
     for(i=0;i<n;i++){
-        for(j=0;j<1;j++){
+        for(j=0;j<10;j++){
             update();
         }
         // cout << X[0] << " " << X[1] << " " << X[2] << " " << X[3] << endl;
@@ -159,7 +159,7 @@ void BM::sampling(int n){
 }
 
 void BM::dataGen(int num){
-    int i;
+    int i,j;
     FILE *datafile;
     datafile = fopen("./data/data.dat", "w");
 
@@ -168,8 +168,9 @@ void BM::dataGen(int num){
     }
 
     for(i=0;i<num;i++){
-        update();
+        for(j=0;j<10;j++) update();
         fprintf(datafile, "%d\n", x_num());
+        histgram[x_num()] += 1;
     }
     fclose(datafile);
 }
@@ -209,7 +210,7 @@ void BM::train(){
     }
 
     p_distr_calc();
-    while(gradient>0.001){
+    while(gradient>0.00001){
         for(i=0;i<N;i++){
 
             // xのデータ平均を求める処理
