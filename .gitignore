@@ -6,3 +6,5 @@ a.out.dSYM/
 *.o
 a.out
 *.out
+main
+learn
