@@ -207,6 +207,7 @@ void BM::train(){
     for(i=0;i<N;i++){
         gradient_w[i] = (double*)malloc(sizeof(double)*N);
     }
+    cout << "\e[?25l"; // カーソルを非表示
 
     p_distr_calc();
     while(gradient>0.0001){
@@ -261,7 +262,7 @@ void BM::train(){
         p_distr_calc();
         loop_time++;
     }
-    cout << endl;
+    cout << "\e[?25h" << endl; // カーソルの再表示
     for(i=0;i<N;i++){
         free(gradient_w[i]);
     }
