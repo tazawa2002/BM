@@ -4,13 +4,16 @@
 BM::BM(int n){
     int i,j;
     N = n;
-    time = pow(2,N);
+    totalStates = pow(2,N);
     X = (int*)malloc(sizeof(int)*N);
     b = (double*)malloc(sizeof(double)*N);
     w = (double**)malloc(sizeof(double*)*N);
-    p_distr = (double*)malloc(sizeof(double)*time);
-    histgram = (int*)malloc(sizeof(int)*time);
+    p_distr = (double*)malloc(sizeof(double)*totalStates);
+    histgram = (int*)malloc(sizeof(int)*totalStates);
     traindatanum = 0;
+
+    std::random_device rd;
+    gen = std::mt19937(rd()); // 乱数生成器の初期化
     for(i=0;i<N;i++){
         w[i] = (double*)malloc(sizeof(double)*N);
         X[i] = 0;
@@ -29,6 +32,7 @@ BM::BM(int n){
         }
     }
     learn_rate = 0.01;
+    
 }
 
 BM::~BM(){
@@ -73,14 +77,6 @@ double BM::lambda(int i){
 }
 
 double BM::random_num(){
-    // 乱数生成器の初期化
-    std::random_device rd;  // ハードウェア乱数生成器または擬似乱数生成器からの乱数シードを提供するオブジェクト
-    std::mt19937 gen(rd()); // メルセンヌ・ツイスター乱数生成器（32ビット版）を使用
-
-    // 一様実数分布の定義 [0, 1)
-    std::uniform_real_distribution<double> dis(0.0, 1.0);
-
-    // 乱数生成
     return dis(gen);
 }
 
@@ -100,14 +96,14 @@ void BM::p_distr_calc(){
     int i,j;
     double Z = 0;
 
-    for(i=0;i<time;i++){
+    for(i=0;i<totalStates;i++){
         setX(i);
-        p_distr[x_num()] = exp(-energy_calc());
+        p_distr[i] = exp(-energy_calc());
     }
-    for(i=0;i<time;i++){
+    for(i=0;i<totalStates;i++){
         Z += p_distr[i];
     }
-    for(i=0;i<time;i++){
+    for(i=0;i<totalStates;i++){
         p_distr[i] = p_distr[i] / Z;
     }
 }
@@ -141,7 +137,7 @@ int* BM::update(){
 // 指定した回数サンプリングを行う関数
 void BM::sampling(int n){
     int i,j;
-    for(i=0;i<time;i++){
+    for(i=0;i<totalStates;i++){
         histgram[i] = 0;
     }
 
@@ -210,7 +206,7 @@ void BM::train(){
     }
 
     p_distr_calc();
-    while(gradient>0.00001){
+    while(gradient>0.0001){
         for(i=0;i<N;i++){
 
             // xのデータ平均を求める処理
@@ -222,7 +218,7 @@ void BM::train(){
 
             // xのモデル平均
             x_ave_model = 0;
-            for(j=0;j<time;j++){
+            for(j=0;j<totalStates;j++){
                 x_ave_model += p_distr[j]*((j>>i)&1);
             }
             gradient_b[i] = x_ave_data - x_ave_model;
@@ -236,7 +232,7 @@ void BM::train(){
                 xx_ave_data /= traindatanum;
                 // xxのモデル平均
                 xx_ave_model = 0;
-                for(k=0;k<time;k++){
+                for(k=0;k<totalStates;k++){
                     xx_ave_model += p_distr[k]*((k>>i)&1)*((k>>j)&1);
                 }
                 gradient_w[i][j] = xx_ave_data - xx_ave_model;
@@ -248,18 +244,20 @@ void BM::train(){
         gradient = 0;
         for(i=0;i<N;i++){
             gradient += gradient_b[i]*gradient_b[i];
-            b[i] = b[i] + learn_rate*N*gradient_b[i];
+            b[i] += learn_rate*N*gradient_b[i];
         }
         for(i=0;i<N;i++){
             for(j=i+1;j<N;j++){
                 gradient += gradient_w[i][j]*gradient_w[i][j];
-                w[i][j] = w[i][j] + learn_rate*N*gradient_w[i][j];
+                w[i][j] += learn_rate*N*gradient_w[i][j];
                 w[j][i] = w[i][j];
             }
         }
+        gradient = sqrt(gradient);
+        cout << "\r" << gradient;
         p_distr_calc();
-        cout << gradient << endl;
     }
+    cout << endl;
     for(i=0;i<N;i++){
         free(gradient_w[i]);
     }
