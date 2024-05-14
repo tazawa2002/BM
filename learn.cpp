@@ -1,7 +1,7 @@
 #include "bm.h"
 
 int main(void){
-    int n = 6;
+    int n = 4;
     int num = 10000;
     BM bm1(n);
     BM bm2(n);
