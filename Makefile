@@ -1,3 +1,5 @@
+all: main learn
+
 main: main.o bm.o
 	g++ -o main main.o bm.o
 
@@ -14,4 +16,4 @@ bm.o: bm.cpp bm.h
 	g++ -c bm.cpp
 
 clean:
-	rm main.o bm.o
+	rm main.o bm.o learn.o
