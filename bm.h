@@ -10,7 +10,7 @@ class BM {
     public:
         double *p_distr; // 確率分布の厳密解
         int *histgram; // 経験分布
-        int totalStates; // 2^Nの値を保存する変数
+        int totalStates; // BMの状態数を保存する変数
         int* update(); // ギブスサンプリングで状態を一回更新する関数
         void sampling(int n); // ギブスサンプリングをn回行い、histgramに結果を代入する
         void p_distr_calc(); // 確率分布の厳密解を計算する関数

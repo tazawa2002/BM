@@ -192,6 +192,7 @@ void BM::dataRead(int num){
 
 void BM::train(){
     int i,j,k;
+    int loop_time = 0;
     double x_ave_model;
     double x_ave_data;
     double xx_ave_model;
@@ -254,8 +255,9 @@ void BM::train(){
             }
         }
         gradient = sqrt(gradient);
-        cout << "\r" << gradient;
+        cout << "\r" << loop_time << ": " << gradient;
         p_distr_calc();
+        loop_time++;
     }
     cout << endl;
     for(i=0;i<N;i++){
