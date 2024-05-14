@@ -13,7 +13,7 @@ int main(void){
     FILE *f;
     int i;
     bm1.p_distr_calc();
-    f = fopen("./graph/bm1_p.txt", "w");
+    f = fopen("./data/bm1_p.dat", "w");
     if (f != NULL) {
         for(i=0;i<bm1.totalStates;i++){
             fprintf(f, "%d %lf\n", i, bm1.p_distr[i]); // ファイルにテキストを書き込む
@@ -25,7 +25,7 @@ int main(void){
     }
 
     bm2.p_distr_calc();
-    f = fopen("./graph/bm2_p.txt", "w");
+    f = fopen("./data/bm2_p.dat", "w");
     if (f != NULL) {
         for(i=0;i<bm2.totalStates;i++){
             fprintf(f, "%d %lf\n", i, bm2.p_distr[i]); // ファイルにテキストを書き込む
@@ -36,7 +36,7 @@ int main(void){
         return 1;
     }
 
-    f = fopen("./graph/bm1_q.txt", "w");
+    f = fopen("./data/bm1_q.dat", "w");
     if (f != NULL) {
         for(i=0;i<bm1.totalStates;i++){
             fprintf(f, "%d %lf\n", i, (double)bm1.histgram[i]/num); // ファイルにテキストを書き込む
@@ -48,7 +48,7 @@ int main(void){
     }
 
     bm2.sampling(num);
-    f = fopen("./graph/bm2_q.txt", "w");
+    f = fopen("./data/bm2_q.dat", "w");
     if (f != NULL) {
         for(i=0;i<bm2.totalStates;i++){
             fprintf(f, "%d %lf\n", i, (double)bm2.histgram[i]/num); // ファイルにテキストを書き込む

@@ -9,7 +9,7 @@ int main(void){
 
     FILE *p, *h;
     int i;
-    p = fopen("./graph/p_distr.txt", "w");
+    p = fopen("./data/p_distr.dat", "w");
     if (p != NULL) {
         for(i=0;i<bm.totalStates;i++){
             fprintf(p, "%d %lf\n", i, bm.p_distr[i]); // ファイルにテキストを書き込む
@@ -23,7 +23,7 @@ int main(void){
     cout << "start sampling: " << num << endl;
     bm.sampling(num);
     cout << "end sampling" << endl;
-    h = fopen("./graph/histgram1.txt", "w");
+    h = fopen("./data/histgram1.dat", "w");
     if (h != NULL) {
         for(i=0;i<bm.totalStates;i++){
             fprintf(h, "%d %lf\n", i, (double)bm.histgram[i]/num); // ファイルにテキストを書き込む
@@ -38,7 +38,7 @@ int main(void){
     cout << "start sampling: " << num << endl;
     bm.sampling(num);
     cout << "end sampling" << endl;
-    h = fopen("./graph/histgram2.txt", "w");
+    h = fopen("./data/histgram2.dat", "w");
     if (h != NULL) {
         for(i=0;i<bm.totalStates;i++){
             fprintf(h, "%d %lf\n", i, (double)bm.histgram[i]/num); // ファイルにテキストを書き込む
@@ -53,7 +53,7 @@ int main(void){
     cout << "start sampling: " << num << endl;
     bm.sampling(num);
     cout << "end sampling" << endl;
-    h = fopen("./graph/histgram3.txt", "w");
+    h = fopen("./data/histgram3.dat", "w");
     if (h != NULL) {
         for(i=0;i<bm.totalStates;i++){
             fprintf(h, "%d %lf\n", i, (double)bm.histgram[i]/num); // ファイルにテキストを書き込む

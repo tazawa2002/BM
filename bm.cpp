@@ -154,6 +154,7 @@ void BM::sampling(int n){
     }
 }
 
+// データを生成する関数
 void BM::dataGen(int num){
     int i,j;
     FILE *datafile;
@@ -171,6 +172,7 @@ void BM::dataGen(int num){
     fclose(datafile);
 }
 
+// データを読み込む関数
 void BM::dataRead(int num){
     int i, j, x;
     FILE *datafile;
