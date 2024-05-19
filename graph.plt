@@ -1,19 +1,40 @@
 set term pdfcairo size 12in, 8in font "VL-PGothic-Regular.ttf,24"
 set output "./graph/graph.pdf"
 
+# 縦軸の最大値を求める処理
+stats './data/p_distr.dat' using 2
+ymax1 = STATS_max
+x = STATS_records
+
+stats './data/histgram1.dat' using 2
+ymax2 = STATS_max
+
+stats './data/histgram2.dat' using 2
+ymax3 = STATS_max
+
+stats './data/histgram3.dat' using 2
+ymax4 = STATS_max
+
+ymax = ymax1 > ymax2 ? ymax1 : ymax2
+ymax = ymax > ymax3 ? ymax : ymax3
+ymax = ymax > ymax4 ? ymax : ymax4
+
 unset key
 set multiplot layout 2,2
+set yrange[0:ymax*1.1]
+set xlabel "状態"
+set ylabel "確率"
 
 set title "ボルツマンマシンの確率分布"
 plot "./data/p_distr.dat" smooth freq with boxes fill solid title "確率分布"
 
-set title "N回サンプリングしたデータの出現確率"
+set title "100回サンプリングしたデータの出現確率"
 plot "./data/histgram1.dat" smooth freq with boxes fill solid title "出現確率"
 
-set title "2N回サンプリングしたデータの出現確率"
+set title "1000回サンプリングしたデータの出現確率"
 plot "./data/histgram2.dat" smooth freq with boxes fill solid title "出現確率"
 
-set title "3N回サンプリングしたデータの出現確率"
+set title "10000回サンプリングしたデータの出現確率"
 plot "./data/histgram3.dat" smooth freq with boxes fill solid title "出現確率"
 
 unset multiplot
