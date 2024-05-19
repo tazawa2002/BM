@@ -17,14 +17,16 @@ BM::BM(int n){
     for(i=0;i<N;i++){
         w[i] = (double*)malloc(sizeof(double)*N);
         X[i] = 0;
-        b[i] = (random_num()>0.5) ? 1 : -1;
+        // b[i] = (random_num()>0.5) ? 1 : -1;
+        b[i] = 2*random_num()-1.0;
     }
     for(i=0;i<N;i++){
         for(j=i;j<N;j++){
             if(i==j){
                 w[i][j] = 0;
             }else{
-                int t = (random_num()>0.5) ? 1 : -1;
+                // int t = (random_num()>0.5) ? 1 : -1;
+                int t = 2*random_num()-1.0;
                 w[i][j] = t;
                 w[j][i] = t;
             }
@@ -259,6 +261,7 @@ void BM::train(){
         }
         gradient = sqrt(gradient);
         cout << "\r" << loop_time << ": " << gradient;
+        if(loop_time%100 == 0) fflush(stdout);
         p_distr_calc();
         loop_time++;
     }
