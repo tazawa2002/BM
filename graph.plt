@@ -26,16 +26,16 @@ set xlabel "状態"
 set ylabel "確率"
 
 set title "ボルツマンマシンの確率分布"
-plot "./data/p_distr.dat" smooth freq with boxes fill solid title "確率分布"
-
-set title "100回サンプリングしたデータの出現確率"
-plot "./data/histgram1.dat" smooth freq with boxes fill solid title "出現確率"
+plot "./data/p_distr.dat" smooth freq with boxes fill solid title "確率分布" lc rgb "#006400"
 
 set title "1000回サンプリングしたデータの出現確率"
-plot "./data/histgram2.dat" smooth freq with boxes fill solid title "出現確率"
+plot "./data/histgram1.dat" smooth freq with boxes fill solid title "出現確率" lc rgb "#006400"
+
+set title "5000回サンプリングしたデータの出現確率"
+plot "./data/histgram2.dat" smooth freq with boxes fill solid title "出現確率" lc rgb "#006400"
 
 set title "10000回サンプリングしたデータの出現確率"
-plot "./data/histgram3.dat" smooth freq with boxes fill solid title "出現確率"
+plot "./data/histgram3.dat" smooth freq with boxes fill solid title "出現確率" lc rgb "#006400"
 
 unset multiplot
 

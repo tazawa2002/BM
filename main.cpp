@@ -1,8 +1,8 @@
 #include "bm.h"
 
 int main(void){
-    BM bm(8);
-    int num = 10;
+    BM bm(10);
+    int num = 1000;
     cout << "start p_distr_calc()" << endl;
     bm.p_distr_calc();
     cout << "end p_distr_calc()" << endl;
@@ -34,7 +34,7 @@ int main(void){
         return 1;
     }
 
-    num = 10000;
+    num = 5000;
     cout << "start sampling: " << num << endl;
     bm.sampling(num);
     cout << "end sampling" << endl;
@@ -49,7 +49,7 @@ int main(void){
         return 1;
     }
 
-    num = 100000;
+    num = 10000;
     cout << "start sampling: " << num << endl;
     bm.sampling(num);
     cout << "end sampling" << endl;
